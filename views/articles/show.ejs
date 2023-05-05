@@ -1,0 +1,13 @@
+<%- include('../partials/header') %>
+
+<h1 class="mb-1"><%= article.title %></h1>
+<div class="text-muted">
+    <% article.createdAt.toLocaleDateString() %>
+    Author: <%= article.author.username %>
+</div>
+<a href="/" class="btn btn-secondary">All Articles</a>
+<a href="/articles/edit/<%= article.id %>" class="btn btn-info">Edit</a>
+<br>
+<%- article.sanitizedHtml %>
+
+<%- include('../partials/footer') %>

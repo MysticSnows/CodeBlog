@@ -2,17 +2,16 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
 
-router.use(express.json());
-// Register new user
+// endpoint: /...
+
+// Register
 router.post('/register', authController.register);
 
 // Login
 router.post('/login', authController.login);
 
 // Logout
-router.get('/logout', authController.logout);
-
-// router.get('/profile', authController.profile);
+router.post('/logout', authController.logout);
 
 
 module.exports = router;

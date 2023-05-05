@@ -1,10 +1,6 @@
 
-const { passport, signToken } = require('../passport-config/passport-config');
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
-
-const authenticateToken = require('../middleware/authToken');
 
 // Register new user
 exports.register = async (req, res) => {
@@ -26,28 +22,28 @@ exports.register = async (req, res) => {
 
 // Login Existing user
 exports.login = async (req, res, next) => {
-    passport.authenticate('local', { session: false }, async (err, user, info) => {
+    const passport = req.app.get('passport');
+    // const signToken = req.app.get('signToken');
+    passport.authenticate('local', { session: true }, async (err, user, info) => {
         if (err || !user) {
             return res.status(401).json({ message: 'Invalid email or password.' });
         }
         // User is authenticated
-        // Generate JWT token and return it to client
-        const token = signToken(user);
-        res.json({ token });
+        req.logIn(user, (err) => {
+            if (err) {
+                return next(err);
+            }
+            // Generate JWT token and return it to client
+            // const token = signToken(user);
+            // res.json({ token });
+            res.redirect('/profile');
+        });
     })(req, res, next);
 };
 
 // Logout
 exports.logout = (req, res) => {
-    req.logout();
-    res.redirect('/');
+    req.session.destroy();
+    res.redirect('/login');
 };
-
-// TEST
-exports.profile = [
-    authenticateToken,
-    (req, res) => {
-        res.send(`Hello ${req.user.username}!`);
-    }
-];
 

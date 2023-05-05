@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 
+// Autenticate Token
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -11,7 +12,6 @@ function authenticateToken(req, res, next) {
 
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) {
-      console.log(err)
       return res.sendStatus(403);
     }
     req.user = user;
@@ -19,4 +19,15 @@ function authenticateToken(req, res, next) {
   });
 }
 
-module.exports = authenticateToken;
+// Check if user already authenticated
+isAuthenticated = (req, res, next) => {
+  console.log("isAuthenticated: ", req.isAuthenticated());
+  console.log("req.user: ", req.user);
+  if (req.user || req.isAuthenticated()) {
+      return next();
+  }
+
+  res.redirect('/login');
+};
+
+module.exports = {authenticateToken, isAuthenticated};
