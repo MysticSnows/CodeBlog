@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
 
-// endpoint: /...
+// endpoint: /auth/...
 
 // Register
 router.post('/register', authController.register);

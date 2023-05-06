@@ -1,13 +1,30 @@
 <%- include('../partials/header') %>
 
-<h1 class="mb-1"><%= article.title %></h1>
-<div class="text-muted">
-    <% article.createdAt.toLocaleDateString() %>
-    Author: <%= article.author.username %>
-</div>
-<a href="/" class="btn btn-secondary">All Articles</a>
-<a href="/articles/edit/<%= article.id %>" class="btn btn-info">Edit</a>
-<br>
-<%- article.sanitizedHtml %>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="card-title mb-1">
+                            <%= article.title %>
+                        </h1>
+                        <div class="text-muted mb-1">
+                            <%= article.createdAt.toLocaleDateString() %> 
+                        </div>
+                        <div class="text-muted mb-3">
+                            Author: <%= article.author.username %>
+                        </div>
+                        <div class="card-text">
+                            <%- article.sanitizedHtml %>
+                        </div>
+                        <div class="mt-3">
+                            <a href="/" class="btn btn-secondary me-2">All Articles</a>
+                            <a href="/articles/edit/<%= article.id %>" class="btn btn-info">Edit</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<%- include('../partials/footer') %>
+    <%- include('../partials/footer') %>

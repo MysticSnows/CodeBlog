@@ -1,28 +1,59 @@
 <%- include('../partials/header') %>
 
-    <h1 class="mb-4">Blog Articles</h1>
-    <a href="/articles/create" class="btn btn-success">Create Article</a>
+    <div class="mt-4">
+        <div class="row">
+            <div class="col-md-8">
+                <h1 class="mb-4">Blog Articles</h1>
+                <% if(currentUser) { %>
+                    <p>Welcome <%= currentUser.username %>
+                    </p>
+                    <% } %>
 
-    <% articles.forEach(article=> { %>
-        <div class="card mt-4">
-            <div class="card-body">
-                <h4 class="card-title">
-                    <%= article.title %>
-                </h4>
-                <div class="card-subtitle text-muted mb-2">
-                    <%= article.createdAt.toLocaleDateString() %>
-                </div>
-                <div class="card-text mb-2">
-                    <%= article.description %>
-                </div>
-                <a href="/articles/<%= article.slug %>" class="btn btn-primary">Read More</a>
-                <a href="/articles/edit/<%= article.id %>" class="btn btn-info">Edit</a>
-                <form action="/articles/<%= article.id %>?_method=DELETE" method="POST" class="d-inline">
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
+                        <% if (articles.length> 0) { %>
+                            <% articles.forEach(article=> { %>
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <h4 class="card-title">
+                                            <%= article.title %>
+                                        </h4>
+                                        <div class="card-subtitle text-muted mb-2">
+                                            <%= article.createdAt.toLocaleDateString() %>
+                                        </div>
+                                        <div class="card-subtitle text-muted mb-2">
+                                            Author: <%= article.author.username %>
+                                        </div>
+                                        <div class="card-text mb-2">
+                                            <%= article.description %>
+                                        </div>
+                                        <a href="/articles/<%= article.slug %>" class="btn btn-primary">Read More</a>
+                                        <% if( currentUser && (currentUser.isAdmin ||
+                                            (article.author._id).equals(currentUser._id))) { %>
+                                            <a href="/articles/edit/<%= article.id %>" class="btn btn-info">Edit</a>
+                                            <form action="/articles/<%= article.id %>?_method=DELETE" method="POST"
+                                                class="d-inline">
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                            <% } %>
+                                    </div>
+                                </div>
+                                <% }) %>
+                                    <% } else { %>
+                                        <p>No articles found</p>
+                                        <% } %>
             </div>
+
+            <div class="col-md-4">
+  <form class="d-flex w-100 justify-content-end" action="/articles/search" method="GET">
+    <div class="flex-grow-1 me-2">
+      <input name="query" class="form-control w-100" type="search" placeholder="Search Article" aria-label="Search">
+    </div>
+    <button class="btn btn-outline-success" type="submit">Search</button>
+  </form>
+  <a href="/articles/create" class="btn btn-success mt-4 w-100">Create Article</a>
+</div>
+
+            
         </div>
-    <% }) %>
+    </div>
 
-
-<%- include('../partials/footer') %>
+    <%- include('../partials/footer') %>

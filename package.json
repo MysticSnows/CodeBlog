@@ -1,6 +1,9 @@
 {
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "ckeditor": "^4.12.1",
+    "ckeditor5": "^37.1.0",
+    "cookie-parser": "^1.4.6",
     "dompurify": "^3.0.2",
     "dotenv": "^16.0.3",
     "ejs": "^3.1.9",

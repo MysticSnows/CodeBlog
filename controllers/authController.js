@@ -13,17 +13,18 @@ exports.register = async (req, res) => {
             username: username,
             password: hashedPassword
         });
-        res.status(201).json({ user });
+        console.log("Registered User: ", user);
+        res.status(201).redirect('/login');
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Unable to register new user' });
+        res.status(500).json({ error: 'Unable to register new user. Possibility of being already registered' });
     }
 };
 
 // Login Existing user
 exports.login = async (req, res, next) => {
     const passport = req.app.get('passport');
-    // const signToken = req.app.get('signToken');
+    const signToken = req.app.get('signToken');
     passport.authenticate('local', { session: true }, async (err, user, info) => {
         if (err || !user) {
             return res.status(401).json({ message: 'Invalid email or password.' });
@@ -34,8 +35,8 @@ exports.login = async (req, res, next) => {
                 return next(err);
             }
             // Generate JWT token and return it to client
-            // const token = signToken(user);
-            // res.json({ token });
+            const token = signToken(user);
+            res.cookie('token', token, { maxAge: 3600000, httpOnly: true });
             res.redirect('/profile');
         });
     })(req, res, next);
@@ -43,7 +44,10 @@ exports.login = async (req, res, next) => {
 
 // Logout
 exports.logout = (req, res) => {
-    req.session.destroy();
-    res.redirect('/login');
+    req.logOut(function (err) {
+        if (err) { return next(err); }
+        res.redirect('/login');
+    });
+    res.clearCookie('token');
 };
 

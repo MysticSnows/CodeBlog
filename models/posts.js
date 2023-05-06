@@ -30,7 +30,7 @@ const articleSchema = new mongoose.Schema({
     },
     markdown: {
         type: String,
-        required: true
+        // required: true
     },
     createdAt: {
         type: Date,
@@ -49,6 +49,10 @@ const articleSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
+    ckEditor: {
+        type: String,
+        // required: true
+    }
 })
 
 articleSchema.pre('validate', function (next) {
@@ -58,7 +62,13 @@ articleSchema.pre('validate', function (next) {
 
     if (this.markdown) {
         // convert markdown to html and purifies the html to avoid malicious html code execution
+        console.log("markdown:" , this.ckEditor)
         this.sanitizedHtml = dompurify.sanitize(marked(this.markdown))
+    }
+
+    if (this.ckEditor) {
+        console.log("CkEditor:" , this.ckEditor)
+        this.sanitizedHtml = this.ckEditor
     }
 
     next()

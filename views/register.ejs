@@ -1,9 +1,42 @@
 <%- include('./partials/header') %>
 
-<form action="/auth/register" method="post">
-    <input type="text" name="username" class="form-control" placeholder="Email"> <br>
-    <input type="text" name="password" class="form-control" placeholder="Password"> <br>
-    <Button type="submit" class="btn btn-primary">Register</Button>
-</form>
+<div class="card w-50 mx-auto mt-5">
+    <div class="card-header">
+        <h1 class="card-title text-center">Register</h1>
+    </div>
+    <div class="card-body">
+        <form action="/auth/register" method="post">
+            <div class="mb-3">
+                <label for="username" class="form-label">Email</label>
+                <input type="text" name="username" id="username" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" name="password" id="password" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="branch" class="form-label">Branch</label>
+                <select name="branch" id="branch" class="form-control">
+                    <option value="" selected disabled>Select Branch</option>
+                    <option value="CSE">CSE</option>
+                    <option value="ME">ME</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="nickname" class="form-label">Nickname</label>
+                <input type="text" name="nickname" id="nickname" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="role" class="form-label">Role</label>
+                <select name="role" id="role" class="form-control">
+                    <option value="" selected disabled>Select Role</option>
+                    <option value="student">Student</option>
+                    <option value="teacher">Teacher</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+    </div>
+</div>
 
 <%- include('./partials/footer') %>

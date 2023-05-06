@@ -7,7 +7,7 @@ exports.create = (req, res) => {
 };
 
 exports.showArticle = async (req, res) => {
-    const article = await Article.findOne({ slug: req.params.slug }).populate('author', 'username -_id');
+    const article = await Article.findOne({ slug: req.params.slug }).populate('author', 'username _id');
     if (article == null) res.redirect('/');
     res.render('articles/show', { article: article });
 };
@@ -17,11 +17,23 @@ exports.edit = async (req, res) => {
     res.render('articles/edit', { article: article });
 };
 
-exports.myArticles = async(req, res) => {
-    const myArticles = await Article.find({author: req.user._id}).populate('author', 'username -_id');
-    res.render('articles/index', {articles: myArticles });
+exports.myArticles = async (req, res) => {
+    const myArticles = await Article.find({ author: req.user._id }).populate('author', 'username _id');
+    res.render('articles/index', { articles: myArticles });
+};
 
-}
+exports.searchArticle = async (req, res) => {
+    const query = req.query.query;
+    try {
+        const articles = await Article.find({ title: { $regex: query, $options: 'i' } });
+        res.render('articles/index', { articles: articles });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Error performing search:', err);
+    }
+};
+
+
 
 // POST
 // create article endpoint: POST /articles/create
@@ -51,7 +63,8 @@ function saveArticleAndRedirect(path) {
         let article = req.article;
         article.title = req.body.title;
         article.description = req.body.description;
-        article.markdown = req.body.markdown;
+        if (req.body.markdown !== '') { article.markdown = req.body.markdown; }
+        if (req.body.ckEditor !== '') { article.ckEditor = req.body.ckEditor; }
         article.author = req.user._id;
         try {
             article = await article.save()
