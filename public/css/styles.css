@@ -1,0 +1,50 @@
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-bottom: 20px;
+}
+table td, table th {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+table th {
+    background-color: #f2f2f2;
+    color: #333;
+    font-weight: bold;
+}
+table tr:first-child {
+    background-color: #f2f2f2;
+}
+
+/* CkEditor font size retain */
+.text-tiny {
+    font-size: 0.7rem;
+}
+.text-small {
+    font-size: 0.85rem;
+}
+.text-big {
+    font-size: 1.4rem;
+}
+.text-huge {
+    font-size: 1.8rem;
+}
+
+/* Todo list spacing when viewed as article */
+.card-text .todo-list {
+    list-style: none;
+    padding-left: 0;
+}
+.todo-list__label input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+blockquote {
+    border-left: 5px solid #ccc;
+    margin: 1.5em 10px;
+    padding: 0 10px;
+  }
+  

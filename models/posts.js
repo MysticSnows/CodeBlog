@@ -9,14 +9,14 @@ const dompurify = createDomPurify(new JSDOM().window);
 const hljs = require('highlight.js');
 
 
-marked.setOptions({
-    renderer: new marked.Renderer(),
-    highlight: function (code, language) {
-        const validLanguage = hljs.getLanguage(language) ? language : 'plaintext';
-        return hljs.highlight(code, { language: validLanguage }).value;
-    },
-    langPrefix: 'hljs language-'
-});
+// marked.setOptions({
+//     renderer: new marked.Renderer(),
+//     highlight: function (code, language) {
+//         const validLanguage = hljs.getLanguage(language) ? language : 'plaintext';
+//         return hljs.highlight(code, { language: validLanguage }).value;
+//     },
+//     langPrefix: 'hljs language-'
+// });
 
 
 
@@ -60,16 +60,19 @@ articleSchema.pre('validate', function (next) {
         this.slug = slugify(this.title, { lower: true, strict: true })
     }
 
-    if (this.markdown) {
-        // convert markdown to html and purifies the html to avoid malicious html code execution
-        console.log("markdown:" , this.ckEditor)
-        this.sanitizedHtml = dompurify.sanitize(marked(this.markdown))
-    }
+    // if (this.markdown !== '') {
+    //     // convert markdown to html and purifies the html to avoid malicious html code execution
+    //     console.log("markdown:" , this.ckEditor)
+    //     this.sanitizedHtml = dompurify.sanitize(marked(this.markdown))
+    // } else if (this.ckEditor !== '') {
+    //     console.log("CkEditor:" , this.ckEditor)
+    //     this.sanitizedHtml = this.ckEditor
+    // }
 
     if (this.ckEditor) {
-        console.log("CkEditor:" , this.ckEditor)
-        this.sanitizedHtml = this.ckEditor
-    }
+        this.sanitizedHtml = dompurify.sanitize(this.ckEditor)
+    } 
+
 
     next()
 })

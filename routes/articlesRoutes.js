@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const articlesController = require('../controllers/articlesController');
+const { authMiddleware } = require('../middlewares/authMiddleware');
 
 // endpoint: /articles/...
 
@@ -13,13 +14,13 @@ router.get('/:slug', articlesController.showArticle);
 
 
 // Post req
-router.post('/createArticle', articlesController.createArticle);
+router.post('/createArticle', authMiddleware, articlesController.createArticle);
 
 // Delete req
-router.delete('/:id', articlesController.deleteArticle);
+router.delete('/:id', authMiddleware, articlesController.deleteArticle);
 
 // Edit
-router.get('/edit/:id', articlesController.edit);
-router.put('/:id', articlesController.editArticle)
+router.get('/edit/:id', authMiddleware, articlesController.edit);
+router.put('/:id', authMiddleware, articlesController.editArticle)
 
 module.exports = router;
