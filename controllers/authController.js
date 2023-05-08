@@ -5,12 +5,13 @@ const User = require('../models/user');
 // Register new user
 exports.register = async (req, res) => {
     try {
-        const { username, password } = req.body;
+        const { username, password, nickname } = req.body;
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
         // Create the new user
         const user = await User.create({
             username: username,
+            nickname: nickname,
             password: hashedPassword
         });
         console.log("Registered User: ", user);

@@ -11,11 +11,11 @@ const userSchema = new mongoose.Schema({
         required: true,
     }
     ,
-    // nickname: {
-    //     type: String,
-    //     required: true,
-    //     unique: true
-    // },
+    nickname: {
+        type: String,
+        required: true,
+        unique: true
+    },
     isAdmin: {
         type: Boolean,
         required: true,

@@ -7,7 +7,7 @@ exports.create = (req, res) => {
 };
 
 exports.showArticle = async (req, res) => {
-    const article = await Article.findOne({ slug: req.params.slug }).populate('author', 'username _id');
+    const article = await Article.findOne({ slug: req.params.slug }).populate('author', 'username nickname _id');
     if (article == null) res.redirect('/');
     res.render('articles/show', { article: article });
 };
@@ -18,8 +18,8 @@ exports.edit = async (req, res) => {
 };
 
 exports.myArticles = async (req, res) => {
-    const myArticles = await Article.find({ author: req.user._id }).populate('author', 'username _id');
-    res.render('articles/index', { articles: myArticles });
+    const myArticles = await Article.find({ author: req.user._id }).populate('author', 'username nickname _id');
+    res.render('articles/index', { articles: myArticles,  pageTitle: "My Articles", pageDescription: "Viewing User created Articles" });
 };
 
 exports.searchArticle = async (req, res) => {
@@ -64,7 +64,14 @@ function saveArticleAndRedirect(path) {
         article.title = req.body.title;
         article.description = req.body.description;
         article.author = req.user._id;
-        article.ckEditor = req.body.ckEditor;
+        if (req.body.ckEditor != ''){
+            article.markdown = undefined;
+            article.ckEditor = req.body.ckEditor; 
+        }
+        else if (req.body.markdown != '') {
+            article.ckEditor = undefined;
+            article.markdown = req.body.markdown;
+        }
         try {
             article = await article.save()
             res.redirect(`/articles/${article.slug}`)

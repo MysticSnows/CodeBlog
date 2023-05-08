@@ -7,7 +7,6 @@ exports.profile = (req, res) => {
     res.render('profile', {user: 
         req.user.username
     });
-    // res.send(`Hello ${req.user.username}!`);
 };
 
 
