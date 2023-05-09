@@ -18,8 +18,12 @@ exports.edit = async (req, res) => {
 };
 
 exports.myArticles = async (req, res) => {
-    const myArticles = await Article.find({ author: req.user._id }).populate('author', 'username nickname _id');
-    res.render('articles/index', { articles: myArticles,  pageTitle: "My Articles", pageDescription: "Viewing User created Articles" });
+    try{
+        const myArticles = await Article.find({ author: req.user._id }).populate('author', 'username nickname _id');
+        res.render('articles/index', { articles: myArticles,  pageTitle: "My Articles", pageDescription: "Viewing User created Articles" });
+    } catch (err) {
+        res.redirect('/');
+    }
 };
 
 exports.searchArticle = async (req, res) => {

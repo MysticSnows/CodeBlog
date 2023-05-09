@@ -32,10 +32,10 @@ const articleSchema = new mongoose.Schema({
         type: String,
         // required: true
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
+    // createdAt: {
+    //     type: Date,
+    //     default: Date.now
+    // },
     slug: {
         type: String,
         required: true,
@@ -53,7 +53,8 @@ const articleSchema = new mongoose.Schema({
         type: String,
         // required: true
     }
-})
+},
+{timestamps: true});
 
 articleSchema.pre('validate', function (next) {
     if (this.title) {

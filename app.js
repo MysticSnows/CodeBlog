@@ -13,6 +13,7 @@ const authRouter = require('./routes/authRoutes');
 const userRouter = require('./routes/userRoutes');
 const indexRouter = require('./routes/indexRoute');
 const postRouter = require('./routes/articlesRoutes');
+const dashboardRouter = require('./routes/dashboardRoutes');
 
 app.set('view engine', 'ejs');
 app.set('views', __dirname + "/views");
@@ -55,7 +56,7 @@ app.use('/auth', authRouter);
 app.use(userRouter);
 app.use(indexRouter);
 app.use('/articles', postRouter);
-
+app.use('/dashboard', dashboardRouter);
 
 app.listen(3000, () => {
     console.log('Server started on port 3000');

@@ -5,7 +5,7 @@ const { authMiddleware } = require('../middlewares/authMiddleware');
 
 // endpoint: /articles/...
 
-router.get('/create', articlesController.create);
+router.get('/create', authMiddleware, articlesController.create);
 router.get('/myArticles', articlesController.myArticles);   // should come before /:slug
 router.get('/search', articlesController.searchArticle);
 
