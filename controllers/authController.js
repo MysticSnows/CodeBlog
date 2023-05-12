@@ -1,6 +1,8 @@
-
+require('dotenv').config();
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
+// Mixpanel utility to track user logins data
+const mixpanel = require('../utils/mixpanel');
 
 // Register new user
 exports.register = async (req, res) => {
@@ -28,12 +30,36 @@ exports.login = async (req, res, next) => {
     const signToken = req.app.get('signToken');
     passport.authenticate('local', { session: true }, async (err, user, info) => {
         if (err || !user) {
-            return res.status(401).json({ message: 'Invalid email or password.' });
+            return res.status(401).render('login', { msg: 'Invalid email or password.' });
+        }
+        // Check if user is banned
+        if (user.isBanned) {
+            return res.status(403).render('login', { msg: 'You were banned by an Admin' });
         }
         // User is authenticated
-        req.logIn(user, (err) => {
+        req.logIn(user, async (err) => {
             if (err) {
                 return next(err);
+            }
+            // Update lastVisit property
+            try {
+                const userId = req.user._id;
+                const user = await User.findById(userId);
+                user.lastVisit = new Date();
+                await user.save();
+                // create or update a user in Mixpanel Engage
+                mixpanel.people.set(userId, {
+                    $distinct_id: userId,
+                    $email: user.username
+                });
+                // send login event to mixpanel server
+                mixpanel.track('Logged In', {
+                    'Login': user.lastVisit,
+                    'email': user.username
+                });
+            } catch (err) {
+                console.log("authController: ", err);
+                res.redirec('/login');
             }
             // Generate JWT token and return it to client
             const token = signToken(user);

@@ -1,0 +1,106 @@
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="card my-4">
+        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+          <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+            <h6 class="text-white text-capitalize ps-3">All Posts</h6>
+          </div>
+        </div>
+        <div class="card-body px-0 pb-2">
+          <div class="table-responsive p-0">
+            <table class="table align-items-center mb-0">
+              <thead>
+
+                <tr>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    Title / Desc</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                    Author</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    Date</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    User Status</th>
+                </tr>
+
+              </thead>
+
+
+              <tbody>
+                <% if (articles.length > 0) { %>
+                <% articles.forEach(article => { %>
+
+                <tr>
+
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="mb-0 text-sm"><%= article.title.substring(0, 12) %></h6>
+                        <p class="text-xs text-secondary mb-0"><%= article.description.substring(0, 12) %></p>
+                      </div>
+                    </div>
+                  </td>
+
+
+                  <td>
+                    <p class="text-xs font-weight-bold mb-0"><%= article.author.nickname %></p>
+                    <p class="text-xs text-secondary mb-0"><%= article.author.username %></p>
+                  </td>
+
+
+                  <td class="align-middle text-center">
+                    <span
+                      class="text-secondary text-xs font-weight-bold"><%= article.createdAt.toLocaleDateString() %></span>
+                  </td>
+
+
+                  <td class="align-middle text-center text-sm">
+                    <span
+                      class="badge badge-sm <%= (article.author.isBanned === true) ? 'bg-gradient-danger' : 'bg-gradient-success' %>">
+                      <%= (article.author.isAdmin === true) ? 'Admin' : 'User' %>
+                      <%= (article.author.isBanned === true) ? ': Banned' : '' %>
+                    </span>
+                  </td>
+
+
+                  <td class="align-middle">
+                    <form action="/dashboard/manage-posts/edit/<%= article._id %>" method="GET">
+                      <button type="submit" class="btn btn-link text-secondary ps-0 pe-2 mt-3">Edit</button>
+                    </form>
+                  </td>
+                  <td class="align-middle">
+                    <form action="/dashboard/manage-posts/delete/<%= article.id %>?_method=DELETE" method="POST">
+                      <button type="submit" class="btn btn-link text-secondary ps-0 pe-2 mt-3">Delete</button>
+                    </form>
+                  </td>
+                  <td class="align-middle">
+                    <form action="/dashboard/manage-posts/publishToggle" method="POST">
+                      <input type="hidden" name="id" value="<%= article._id %>">
+                      <button type="submit" class="btn btn-link text-secondary ps-0 pe-2 mt-3">
+                        <%= (article.published === true) ? 'Unpublish' : 'Publish' %>
+                      </button>
+                    </form>
+                  </td>
+
+                </tr>
+
+                <% }); %>
+                <% } %>
+
+
+
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <%- include('../_footer-copyright') %>
+
+
+</div>

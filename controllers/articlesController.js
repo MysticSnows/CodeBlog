@@ -9,7 +9,7 @@ exports.create = (req, res) => {
 exports.showArticle = async (req, res) => {
     const article = await Article.findOne({ slug: req.params.slug }).populate('author', 'username nickname _id');
     if (article == null) res.redirect('/');
-    res.render('articles/show', { article: article });
+    res.render('articles/show', { article: article, page_url: process.env.DISQUS_PAGE_URL });
 };
 
 exports.edit = async (req, res) => {
@@ -67,6 +67,7 @@ function saveArticleAndRedirect(path) {
         let article = req.article;
         article.title = req.body.title;
         article.description = req.body.description;
+        article.published = true;
         article.author = req.user._id;
         if (req.body.ckEditor != ''){
             article.markdown = undefined;
@@ -77,10 +78,10 @@ function saveArticleAndRedirect(path) {
             article.markdown = req.body.markdown;
         }
         try {
-            article = await article.save()
-            res.redirect(`/articles/${article.slug}`)
+            article = await article.save();
+            res.redirect(`/articles/${article.slug}`);
         } catch (e) {
-            res.render(`articles/${path}`, { article: article })
+            res.render(`articles/${path}`, { article: article });
         }
     }
 }

@@ -23,7 +23,8 @@ marked.setOptions({
 const articleSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     description: {
         type: String
@@ -52,6 +53,9 @@ const articleSchema = new mongoose.Schema({
     ckEditor: {
         type: String,
         // required: true
+    },
+    published: {
+        type: Boolean
     }
 },
 {timestamps: true});
@@ -63,10 +67,8 @@ articleSchema.pre('validate', function (next) {
 
     if (typeof this.markdown !== 'undefined') {
         // convert markdown to html and purifies the html to avoid malicious html code execution
-        console.log("markdown:", this.ckEditor)
         this.sanitizedHtml = dompurify.sanitize(marked(this.markdown))
     } else if (this.ckEditor !== '') {
-        console.log("CkEditor:", this.ckEditor)
         this.sanitizedHtml = dompurify.sanitize(this.ckEditor)
     }
 

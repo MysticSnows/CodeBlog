@@ -1,0 +1,5 @@
+<div class="container-fluid py-4">
+    <form class="contentForm" action="/dashboard/manage-posts/edit/<%= article.id %>?_method=PUT" method="POST">
+        <%- include('../../articles/_form_fields', {dashboard: true}) %>
+    </form>
+</div>

@@ -1,5 +1,11 @@
 <%- include('./partials/header') %>
 
+<% if(typeof msg  != 'undefined') { %>
+<script>
+    alert('<%= msg %>');
+</script>
+<% } %>
+
 <div class="card w-50 mx-auto mt-5">
     <div class="card-header">
         <h1 class="card-title text-center">Login</h1>

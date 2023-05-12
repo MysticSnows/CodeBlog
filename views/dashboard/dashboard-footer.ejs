@@ -1,9 +1,12 @@
 <!--   Core JS Files   -->
-<script src="./assets/js/core/popper.min.js"></script>
-<script src="./assets/js/core/bootstrap.min.js"></script>
-<script src="./assets/js/plugins/perfect-scrollbar.min.js"></script>
-<script src="./assets/js/plugins/smooth-scrollbar.min.js"></script>
-<script src="./assets/js/plugins/chartjs.min.js"></script>
+<script src="/assets/js/core/popper.min.js"></script>
+<script src="/assets/js/core/bootstrap.min.js"></script>
+<script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+<script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+<script src="/assets/js/plugins/chartjs.min.js"></script>
+
+
+<% if(typeof weekly_post_cnt !== 'undefined') { %>
 <script>
     var ctx = document.getElementById("chart-bars").getContext("2d");
 
@@ -12,16 +15,16 @@
         data: {
             labels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
             datasets: [{
-                label: "",
+                label: "New Posts",
                 tension: 0.4,
                 borderWidth: 0,
                 borderRadius: 4,
                 borderSkipped: false,
                 backgroundColor: "rgba(255, 255, 255, .8)",
                 // enter data: This shows up on bar
-                data: [50, 20, 10, 22, 50, 10, 40],
-                maxBarThickness: 6
-            },],
+                data: <% // eslint-disable-line %> <%= JSON.stringify(weekly_post_cnt) %>, 
+                    maxBarThickness: 6
+                }],
         },
         options: {
             responsive: true,
@@ -87,6 +90,9 @@
     });
 
 </script>
+<% } %>
+
+
 <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -96,10 +102,26 @@
         Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
 </script>
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+</script>
 <!-- Github buttons -->
-<script async defer src="https://buttons.github.io/buttons.js"></script>
+<!-- <script async defer src="https://buttons.github.io/buttons.js"></script> -->
 <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-<script src="./assets/js/material-dashboard.min.js?v=3.1.0"></script>
+<script src="/assets/js/material-dashboard.min.js?v=3.1.0"></script>
+
+<!-- CKEditor -->
+<script src="/ckeditor/ckeditor.js"></script>
+<!-- JQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"
+    integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+<!-- Client-side script.js -->
+<script src="/script.js"></script>
+
 </body>
 
 </html>

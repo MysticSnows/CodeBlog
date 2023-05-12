@@ -10,7 +10,7 @@
                 </div>
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
-            <a href="/articles/create" class="btn btn-success mt-4 w-100">Create Article</a>
+            <a href="/articles/create" class="btn btn-dark mt-4 w-100">Create Article</a>
         </div>
 
         <div class="col-md-8">
@@ -20,32 +20,39 @@
             </p>
             <% } %>
 
-            <% if (articles.length> 0) { %>
+            <% if (articles.length > 0) { %>
             <% articles.forEach(article => { %>
+            <% if (article.published) { %>
             <div class="card mb-4">
                 <div class="card-body">
                     <h4 class="card-title">
                         <%= article.title %>
                     </h4>
                     <div class="card-subtitle text-muted mb-2">
-                        <%= article.createdAt.toLocaleDateString() %>
-                    </div>
-                    <div class="card-subtitle text-muted mb-2">
-                        Author: <%= article.author.nickname %>
+                        <%= article.createdAt.toLocaleDateString() %> | Author: <%= article.author.nickname %>
                     </div>
                     <div class="card-text mb-2">
                         <%= article.description %>
                     </div>
-                    <a href="/articles/<%= article.slug %>" class="btn btn-primary">Read More</a>
+                    <a href="/articles/<%= article.slug %>" class="btn btn-dark">Read More</a>
                     <% if( currentUser && (currentUser.isAdmin ||
                                             (article.author._id).equals(currentUser._id))) { %>
-                    <a href="/articles/edit/<%= article.id %>" class="btn btn-info">Edit</a>
+                    <a href="/articles/edit/<%= article.id %>" class="btn btn-outline-dark">Edit</a>
                     <form action="/articles/<%= article.id %>?_method=DELETE" method="POST" class="d-inline">
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="submit" class="btn btn-danger">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                            </svg>
+                        </button>
                     </form>
                     <% } %>
                 </div>
             </div>
+
+            <% } %>
+
             <% }) %>
             <% } else { %>
             <p>No articles found</p>

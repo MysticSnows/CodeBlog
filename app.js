@@ -6,6 +6,7 @@ const app = express();
 const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
+const path = require('path');
 
 const { passport, signToken } = require('./middlewares/passport-config')(app);
 // Including Routes
@@ -17,7 +18,7 @@ const dashboardRouter = require('./routes/dashboardRoutes');
 
 app.set('view engine', 'ejs');
 app.set('views', __dirname + "/views");
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname + '/public')));
 app.use(methodOverride('_method'));     // required for DELETE
 
 // Connect to MongoDB
@@ -32,7 +33,7 @@ app.set('passport', passport);
 app.set('signToken', signToken);
 
 
-app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 app.use(bodyParser.json());
 
 // Use cookie-parser middleware

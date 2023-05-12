@@ -1,0 +1,123 @@
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="card my-4">
+        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+          <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+            <h6 class="text-white text-capitalize ps-3">All Users</h6>
+          </div>
+        </div>
+        <div class="card-body px-0 pb-2">
+          <div class="table-responsive p-0">
+            <table class="table align-items-center mb-0">
+              <thead>
+
+                <tr>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    Username / Email</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                    Created</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    Last Visit</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    User Status</th>
+                </tr>
+
+              </thead>
+
+
+              <tbody>
+                <% if (users.length > 0) { %>
+                <% users.forEach(user => { %>
+
+                <tr <%= (String(currentUser._id) === String(user._id)) ? 'style=background-color:#d1f0d1;' : '' %>>
+
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="mb-0 text-sm"><%= user.nickname %></h6>
+                        <p class="text-xs text-secondary mb-0">
+                          <%= user.username %></p>
+                      </div>
+                    </div>
+                  </td>
+
+
+                  <td>
+                    <p class="text-xs font-weight-bold mb-0">Created:<%= user.createdAt.toLocaleDateString() %></p>
+                    <p class="text-xs text-secondary mb-0">Modified:<%= user.updatedAt.toLocaleDateString() %></p>
+                  </td>
+
+
+                  <td class="align-middle text-center">
+                    <span
+                      class="text-secondary text-xs font-weight-bold"><%= (typeof user.lastVisit != 'undefined') ? user.lastVisit.toLocaleDateString() : 'Unknown' %></span>
+                  </td>
+
+
+                  <td class="align-middle text-center text-sm">
+                    <span
+                      class="badge badge-sm <%= (user.isBanned === true) ? 'bg-gradient-danger' : 'bg-gradient-success' %>">
+                      <%= (user.isAdmin === true) ? 'Admin' : 'User' %>
+                      <%= (user.isBanned === true) ? ': Banned' : '' %>
+                    </span>
+                  </td>
+
+
+
+                  <% if(String(currentUser._id) !== String(user._id)) { %>
+
+                  <td class="align-middle">
+                    <form action="/dashboard/manage-users/banToggle" method="POST">
+                      <button type="submit" class="btn btn-link text-secondary ps-0 pe-2 mt-3">
+                        <input type="hidden" name="id" value="<%= user._id %>">
+                        <%= (user.isBanned === true) ? 'Unban User' : 'Ban User' %>
+                      </button>
+                    </form>
+                  </td>
+
+                  <td class="align-middle">
+                    <form action="/dashboard/manage-users/deleteUser?_method=DELETE" method="POST">
+                      <input type="hidden" name="id" value="<%= user._id %>">
+                      <button type="submit" class="btn btn-link text-secondary ps-0 pe-2 mt-3">Delete</button>
+                    </form>
+                  </td>
+
+                  <td class="align-middle">
+                    <form action="/dashboard/manage-users/adminToggle" method="POST">
+                      <input type="hidden" name="id" value="<%= user._id %>">
+                      <button type="submit" class="btn btn-link text-secondary ps-0 pe-2 mt-3">
+                        <%= (user.isAdmin === true) ? 'Revoke Admin' : 'Make Admin' %>
+                      </button>
+                    </form>
+                  </td>
+
+                </tr>
+
+                <% } else { %>
+                <td class="align-middle"></td>
+                <td class="align-middle"></td>
+                <td class="align-middle"></td>
+                <% } %>
+
+
+                <% }); %>
+                <% } %>
+
+
+
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <%- include('../_footer-copyright') %>
+
+
+</div>
