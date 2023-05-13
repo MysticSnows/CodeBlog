@@ -7,7 +7,7 @@ exports.create = (req, res) => {
 };
 
 exports.showArticle = async (req, res) => {
-    const article = await Article.findOne({ slug: req.params.slug }).populate('author', 'username nickname _id');
+    const article = await Article.findOne({ slug: req.params.slug }).populate('author', 'username nickname isDeleted _id');
     if (article == null) res.redirect('/');
     res.render('articles/show', { article: article, page_url: process.env.DISQUS_PAGE_URL });
 };
@@ -19,7 +19,7 @@ exports.edit = async (req, res) => {
 
 exports.myArticles = async (req, res) => {
     try{
-        const myArticles = await Article.find({ author: req.user._id }).populate('author', 'username nickname _id');
+        const myArticles = await Article.find({ author: req.user._id }).populate('author', 'username nickname isDeleted _id');
         res.render('articles/index', { articles: myArticles,  pageTitle: "My Articles", pageDescription: "Viewing User created Articles" });
     } catch (err) {
         res.redirect('/');

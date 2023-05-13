@@ -4,6 +4,7 @@ if (ckEditor) {
     DecoupledDocumentEditor
         .create(ckEditor, {
             licenseKey: '',
+            extraAllowedContent: 'iframe[*]',
             mediaEmbed: {
                 previewsInData: true
             },

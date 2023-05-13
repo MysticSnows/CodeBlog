@@ -57,8 +57,10 @@
 
                   <td class="align-middle text-center text-sm">
                     <span
-                      class="badge badge-sm <%= (user.isBanned === true) ? 'bg-gradient-danger' : 'bg-gradient-success' %>">
-                      <%= (user.isAdmin === true) ? 'Admin' : 'User' %>
+                      class="badge badge-sm <%= (user.isBanned === true || user.isDeleted === true) ? 'bg-gradient-danger' : 'bg-gradient-success' %>">
+                      <%= (user.isDeleted === true) ? 'Deleted User':
+                          ((user.isAdmin === true) ? 'Admin' : 'User') 
+                      %>
                       <%= (user.isBanned === true) ? ': Banned' : '' %>
                     </span>
                   </td>
@@ -71,15 +73,19 @@
                     <form action="/dashboard/manage-users/banToggle" method="POST">
                       <button type="submit" class="btn btn-link text-secondary ps-0 pe-2 mt-3">
                         <input type="hidden" name="id" value="<%= user._id %>">
+                        <% if(!user.isDeleted) { %>
                         <%= (user.isBanned === true) ? 'Unban User' : 'Ban User' %>
+                        <% } %>
                       </button>
                     </form>
                   </td>
 
                   <td class="align-middle">
-                    <form action="/dashboard/manage-users/deleteUser?_method=DELETE" method="POST">
+                    <form action="/dashboard/manage-users/deleteUser" method="POST">
                       <input type="hidden" name="id" value="<%= user._id %>">
+                      <% if(!user.isDeleted) { %>
                       <button type="submit" class="btn btn-link text-secondary ps-0 pe-2 mt-3">Delete</button>
+                      <% } %>
                     </form>
                   </td>
 
@@ -87,7 +93,9 @@
                     <form action="/dashboard/manage-users/adminToggle" method="POST">
                       <input type="hidden" name="id" value="<%= user._id %>">
                       <button type="submit" class="btn btn-link text-secondary ps-0 pe-2 mt-3">
+                        <% if(!user.isDeleted) { %>
                         <%= (user.isAdmin === true) ? 'Revoke Admin' : 'Make Admin' %>
+                        <% } %>
                       </button>
                     </form>
                   </td>

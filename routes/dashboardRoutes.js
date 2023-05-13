@@ -24,7 +24,8 @@ router.post('/manage-posts/publishToggle', authMiddleware, isAdmin, dashboardCon
 router.post('/manage-users/adminToggle', authMiddleware, isAdmin, dashboardController.adminToggle);
 
 // DELETE User
-router.delete('/manage-users/deleteUser', authMiddleware, isAdmin, dashboardController.deleteUser);
+// router.delete('/manage-users/deleteUser', authMiddleware, isAdmin, dashboardController.deleteUser);
+router.post('/manage-users/deleteUser', authMiddleware, isAdmin, dashboardController.deleteUser);
 
 // Ban / Unban User
 router.post('/manage-users/banToggle', authMiddleware, isAdmin, dashboardController.banToggle);

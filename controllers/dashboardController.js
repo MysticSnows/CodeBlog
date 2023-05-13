@@ -71,7 +71,7 @@ exports.default = async (req, res) => {
 
 //////    View    //////
 exports.managePosts = async (req, res) => {
-  const articles = await Article.find({}).populate('author', 'username nickname isAdmin isBanned createdAt lastVisit').sort({ createdAt: 'desc' });
+  const articles = await Article.find({}).populate('author', 'username nickname isAdmin isBanned isDeleted createdAt lastVisit').sort({ createdAt: 'desc' });
   res.render('dashboard/adminDash', {
     toRender: '_manage-posts', pageName: 'Manage Posts',
     articles: articles
@@ -161,12 +161,17 @@ exports.adminToggle = async (req, res) => {
 
 
 exports.deleteUser = async (req, res) => {
-  try {
-    await User.findByIdAndDelete(req.body.id);
-  } catch (err) {
-    console.log("Error in deleteUser Controller", err);
-  }
+  // try {
+  //   await User.findByIdAndDelete(req.body.id);
+  // } catch (err) {
+  //   console.log("Error in deleteUser Controller", err);
+  // }
+  // res.redirect('/dashboard/manage-users');
+  const user = await User.findById(req.body.id);
+  user.isDeleted = true;
+  await user.save();
   res.redirect('/dashboard/manage-users');
+  
 }
 
 

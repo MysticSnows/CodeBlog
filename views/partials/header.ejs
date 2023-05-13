@@ -51,9 +51,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/articles/myArticles">My Articles</a>
                     </li>
+                    <% if(currentUser.isAdmin) { %>
                     <li class="nav-item">
                         <a href="/dashboard" class="nav-link">Dashboard</a>
                     </li>
+                    <% } %>
                     <li class="nav-item">
                         <form action="/auth/logout" method="post">
                             <button class="btn nav-link" type="submit">Log out</button>

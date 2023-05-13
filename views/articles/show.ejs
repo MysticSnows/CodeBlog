@@ -9,7 +9,7 @@
                     <%= article.title %>
                 </h2>
                 <div class="text-muted mb-5">
-                    <%= article.createdAt.toLocaleDateString() %> | Author: <%= article.author.nickname %>
+                    <%= article.createdAt.toLocaleDateString() %> | Author: <%= (article.author.isDeleted) ? 'Deleted User' : article.author.nickname %>
                 </div>
                 <h4 class="card-subtitle mb-2">Description</h4>
                 <div class="card-text mb-5">

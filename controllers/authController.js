@@ -8,6 +8,10 @@ const mixpanel = require('../utils/mixpanel');
 exports.register = async (req, res) => {
     try {
         const { username, password, nickname } = req.body;
+        //nickname should not be 'Deleted User'
+        if (nickname === 'Deleted User' || nickname === 'DeletedUser') {
+            res.status(400).redirect('/login', { msg: 'Username as "Deleted User" is not allowed\nPlease try some other username!' });
+        }
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
         // Create the new user
@@ -20,17 +24,22 @@ exports.register = async (req, res) => {
         res.status(201).redirect('/login');
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Unable to register new user. Possibility of being already registered' });
+        res.status(500).render('login', { msg: 'Unable to register new user. Possibility of being already registered' });
     }
 };
 
 // Login Existing user
 exports.login = async (req, res, next) => {
+
     const passport = req.app.get('passport');
     const signToken = req.app.get('signToken');
     passport.authenticate('local', { session: true }, async (err, user, info) => {
         if (err || !user) {
             return res.status(401).render('login', { msg: 'Invalid email or password.' });
+        }
+        // Check if user is deleted
+        if (user.isDeleted) {
+            return res.status(400).render('login', { msg: 'This account does no longer exist' });
         }
         // Check if user is banned
         if (user.isBanned) {

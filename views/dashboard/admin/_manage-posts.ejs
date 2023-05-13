@@ -30,7 +30,7 @@
                 <% if (articles.length > 0) { %>
                 <% articles.forEach(article => { %>
 
-                <tr>
+                <tr <%= (String(currentUser.username) === String(article.author.username)) ? 'style=background-color:#d1f0d1;' : '' %>>
 
                   <td>
                     <div class="d-flex px-2 py-1">
@@ -56,8 +56,10 @@
 
                   <td class="align-middle text-center text-sm">
                     <span
-                      class="badge badge-sm <%= (article.author.isBanned === true) ? 'bg-gradient-danger' : 'bg-gradient-success' %>">
-                      <%= (article.author.isAdmin === true) ? 'Admin' : 'User' %>
+                      class="badge badge-sm <%= (article.author.isBanned === true || article.author.isDeleted === true) ? 'bg-gradient-danger' : 'bg-gradient-success' %>">
+                      <%= (article.author.isDeleted === true) ? 'Deleted User':
+                          ((article.author.isAdmin === true) ? 'Admin' : 'User') 
+                      %>
                       <%= (article.author.isBanned === true) ? ': Banned' : '' %>
                     </span>
                   </td>

@@ -26,13 +26,24 @@ const userSchema = new mongoose.Schema({
         required: true,
         default: false
     },
+    isDeleted: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
     lastVisit: {
         type: Date
     }
 },
-{timestamps: true}
+    { timestamps: true }
 );
 
+
+
+
+
 const User = mongoose.model('User', userSchema);
+
+
 
 module.exports = User;
