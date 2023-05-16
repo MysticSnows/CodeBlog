@@ -9,8 +9,8 @@
                         aria-label="Search">
                 </div>
                 <button class="btn btn-outline-light" style="color: black; font-size: 14px;" type="submit">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                        height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 18 18">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-search" viewBox="0 0 18 18">
                         <path
                             d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                     </svg> Search
@@ -36,28 +36,36 @@
                     </h4>
                     <div class="card-subtitle text-muted mt-1 mb-2">
                         <span class="badge bg-info-subtle text-info-emphasis rounded-pill">
-                            <%= article.createdAt.toLocaleDateString() %> 
+                            <%= article.createdAt.toLocaleDateString() %>
                         </span>
-                        <span class="badge <%= (article.author.isDeleted) ? 'bg-danger-subtle' : 'bg-success-subtle' %> text-success-emphasis rounded-pill">
+                        <span
+                            class="badge <%= (article.author.isDeleted) ? 'bg-danger-subtle' : 'bg-success-subtle' %> text-success-emphasis rounded-pill">
                             Author: <%= (article.author.isDeleted) ? 'Deleted User' : article.author.nickname %>
                         </span>
                     </div>
                     <div class="card-text mt-3 mb-3">
                         <%= article.description %>
                     </div>
+
                     <a href="/articles/<%= article.slug %>" class="btn btn-dark">Read More</a>
+                    
                     <% if( currentUser && (currentUser.isAdmin ||
                                             (article.author._id).equals(currentUser._id))) { %>
+
                     <a href="/articles/edit/<%= article.id %>" class="btn btn-outline-dark">Edit</a>
+
                     <form action="/articles/<%= article.id %>?_method=DELETE" method="POST" class="d-inline">
-                        <button type="submit" class="btn btn-danger">
+                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                            data-bs-target="#confirmModal">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-trash-fill" viewBox="0 0 16 16">
                                 <path
                                     d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
                             </svg>
                         </button>
+                        <%- include('../partials/modals/confirmModal', {action: 'Delete', msg: 'delete this post'}) %>
                     </form>
+
                     <% } %>
                 </div>
             </div>

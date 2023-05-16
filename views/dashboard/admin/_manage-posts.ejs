@@ -13,13 +13,13 @@
               <thead>
 
                 <tr>
-                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                  <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-7">
                     Title / Desc</th>
-                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                  <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-7 ps-2">
                     Author</th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                  <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-7">
                     Date</th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                  <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-7">
                     User Status</th>
                 </tr>
 
@@ -30,13 +30,14 @@
                 <% if (articles.length > 0) { %>
                 <% articles.forEach(article => { %>
 
-                <tr <%= (String(currentUser.username) === String(article.author.username)) ? 'style=background-color:#d1f0d1;' : '' %>>
+                <tr
+                  <%= (String(currentUser.username) === String(article.author.username)) ? 'style=background-color:#d1f0d1;' : '' %>>
 
                   <td>
                     <div class="d-flex px-2 py-1">
                       <div class="d-flex flex-column justify-content-center">
                         <h6 class="mb-0 text-sm"><%= article.title.substring(0, 12) %></h6>
-                        <p class="text-xs text-secondary mb-0"><%= article.description.substring(0, 12) %></p>
+                        <p class="text-xs text-dark mb-0"><%= article.description.substring(0, 12) %></p>
                       </div>
                     </div>
                   </td>
@@ -44,13 +45,13 @@
 
                   <td>
                     <p class="text-xs font-weight-bold mb-0"><%= article.author.nickname %></p>
-                    <p class="text-xs text-secondary mb-0"><%= article.author.username %></p>
+                    <p class="text-xs text-dark mb-0"><%= article.author.username %></p>
                   </td>
 
 
                   <td class="align-middle text-center">
                     <span
-                      class="text-secondary text-xs font-weight-bold"><%= article.createdAt.toLocaleDateString() %></span>
+                      class="text-dark text-xs font-weight-bold"><%= article.createdAt.toLocaleDateString() %></span>
                   </td>
 
 
@@ -67,18 +68,21 @@
 
                   <td class="align-middle">
                     <form action="/dashboard/manage-posts/edit/<%= article._id %>" method="GET">
-                      <button type="submit" class="btn btn-link text-secondary ps-0 pe-2 mt-3">Edit</button>
+                      <button type="submit" class="btn btn-link text-muted ps-0 pe-2 mt-3">Edit</button>
                     </form>
                   </td>
                   <td class="align-middle">
                     <form action="/dashboard/manage-posts/delete/<%= article.id %>?_method=DELETE" method="POST">
-                      <button type="submit" class="btn btn-link text-secondary ps-0 pe-2 mt-3">Delete</button>
+                      <button type="button" class="btn btn-link text-muted ps-0 pe-2 mt-3" data-bs-toggle="modal"
+                        data-bs-target="#confirmModal">Delete</button>
+                      <%- include('../../partials/modals/confirmModal', {action: 'Delete', msg: 'delete this post'}) %>
                     </form>
                   </td>
+
                   <td class="align-middle">
                     <form action="/dashboard/manage-posts/publishToggle" method="POST">
                       <input type="hidden" name="id" value="<%= article._id %>">
-                      <button type="submit" class="btn btn-link text-secondary ps-0 pe-2 mt-3">
+                      <button type="submit" class="btn btn-link text-muted ps-0 pe-2 mt-3">
                         <%= (article.published === true) ? 'Unpublish' : 'Publish' %>
                       </button>
                     </form>

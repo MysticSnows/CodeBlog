@@ -13,13 +13,13 @@
               <thead>
 
                 <tr>
-                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                  <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-7">
                     Username / Email</th>
-                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                  <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-7 ps-2">
                     Created</th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                  <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-7">
                     Last Visit</th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                  <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-7">
                     User Status</th>
                 </tr>
 
@@ -36,7 +36,7 @@
                     <div class="d-flex px-2 py-1">
                       <div class="d-flex flex-column justify-content-center">
                         <h6 class="mb-0 text-sm"><%= user.nickname %></h6>
-                        <p class="text-xs text-secondary mb-0">
+                        <p class="text-xs text-dark mb-0">
                           <%= user.username %></p>
                       </div>
                     </div>
@@ -44,14 +44,14 @@
 
 
                   <td>
-                    <p class="text-xs font-weight-bold mb-0">Created:<%= user.createdAt.toLocaleDateString() %></p>
-                    <p class="text-xs text-secondary mb-0">Modified:<%= user.updatedAt.toLocaleDateString() %></p>
+                    <p class="text-xs font-weight-bold mb-1">Created: <%= user.createdAt.toLocaleDateString() %></p>
+                    <p class="text-xs text-dark mb-0">Modified: <%= user.updatedAt.toLocaleDateString() %></p>
                   </td>
 
 
                   <td class="align-middle text-center">
                     <span
-                      class="text-secondary text-xs font-weight-bold"><%= (typeof user.lastVisit != 'undefined') ? user.lastVisit.toLocaleDateString() : 'Unknown' %></span>
+                      class="text-dark text-xs font-weight-bold"><%= (typeof user.lastVisit != 'undefined') ? user.lastVisit.toLocaleDateString() : 'Unknown' %></span>
                   </td>
 
 
@@ -71,7 +71,7 @@
 
                   <td class="align-middle">
                     <form action="/dashboard/manage-users/banToggle" method="POST">
-                      <button type="submit" class="btn btn-link text-secondary ps-0 pe-2 mt-3">
+                      <button type="submit" class="btn btn-link text-muted ps-0 pe-2 mt-3">
                         <input type="hidden" name="id" value="<%= user._id %>">
                         <% if(!user.isDeleted) { %>
                         <%= (user.isBanned === true) ? 'Unban User' : 'Ban User' %>
@@ -84,7 +84,9 @@
                     <form action="/dashboard/manage-users/deleteUser" method="POST">
                       <input type="hidden" name="id" value="<%= user._id %>">
                       <% if(!user.isDeleted) { %>
-                      <button type="submit" class="btn btn-link text-secondary ps-0 pe-2 mt-3">Delete</button>
+                      <button type="button" class="btn btn-link text-muted ps-0 pe-2 mt-3" data-bs-toggle="modal"
+                      data-bs-target="#confirmModal">Delete</button>
+                      <%- include('../../partials/modals/confirmModal', {action: 'Delete', msg: 'delete this user'}) %>
                       <% } %>
                     </form>
                   </td>
@@ -92,10 +94,11 @@
                   <td class="align-middle">
                     <form action="/dashboard/manage-users/adminToggle" method="POST">
                       <input type="hidden" name="id" value="<%= user._id %>">
-                      <button type="submit" class="btn btn-link text-secondary ps-0 pe-2 mt-3">
+                      <button type="submit" class="btn btn-link text-muted ps-0 pe-2 mt-3">
                         <% if(!user.isDeleted) { %>
                         <%= (user.isAdmin === true) ? 'Revoke Admin' : 'Make Admin' %>
                         <% } %>
+                        
                       </button>
                     </form>
                   </td>
