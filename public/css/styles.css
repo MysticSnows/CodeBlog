@@ -1,4 +1,5 @@
-/* Table Styling */
+
+/* * * * * Table Styling * * * * */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -19,7 +20,7 @@ table tr:first-child {
     background-color: #f2f2f2;
 }
 
-/* CkEditor font size retain */
+/* * * * * CkEditor font size retain * * * * */
 .text-tiny {
     font-size: 0.7rem;
 }
@@ -33,7 +34,7 @@ table tr:first-child {
     font-size: 1.8rem;
 }
 
-/* Todo list spacing when viewed as article */
+/* * * * * Todo list spacing when viewed as article * * * * */
 .card-text .todo-list {
     list-style: none;
     padding-left: 0;
@@ -48,3 +49,24 @@ blockquote {
     padding: 0 10px;
   }
   
+
+/* * * * * Gradient Effect * * * * */
+.gradients {
+	background: linear-gradient(-45deg, #7ae5a9, #7bc7e2, #67e5c8);
+	background-size: cover;
+    background-repeat: no-repeat;
+	animation: gradient 15s ease infinite;
+    min-height: 100vh;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}

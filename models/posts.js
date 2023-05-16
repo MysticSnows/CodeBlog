@@ -64,14 +64,12 @@ articleSchema.pre('validate', function (next) {
     if (typeof this.markdown !== 'undefined') {
         // convert markdown to html and purifies the html to avoid malicious html code execution
         this.sanitizedHtml = dompurify.sanitize(marked(this.markdown))
-    } else if (this.ckEditor !== '') {
+    } else if (this.ckEditor !== 'undefined') {
         this.sanitizedHtml = dompurify.sanitize(this.ckEditor)
+    } else {
+        // skip saving the data since both are undefined
+        return next(new Error('Markdown or CKEditor content is required.'));
     }
-
-    // if (this.ckEditor) {
-    //     this.sanitizedHtml = dompurify.sanitize(this.ckEditor)
-    // } 
-
 
     next()
 })

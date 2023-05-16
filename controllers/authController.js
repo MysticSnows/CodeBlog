@@ -73,7 +73,7 @@ exports.login = async (req, res, next) => {
             // Generate JWT token and return it to client
             const token = signToken(user);
             res.cookie('token', token, { maxAge: 3600000, httpOnly: true });
-            res.redirect('/profile');
+            res.redirect('/');
         });
     })(req, res, next);
 };
