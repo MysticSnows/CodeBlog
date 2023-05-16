@@ -52,11 +52,12 @@ blockquote {
 
 /* * * * * Gradient Effect * * * * */
 .gradients {
-	background: linear-gradient(-45deg, #7ae5a9, #7bc7e2, #67e5c8);
-	background-size: cover;
+	background: linear-gradient(-45deg, #7ae5a9, #7bc7e2, #9cffe6);
+	/* background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab); */
+	background-size: 400% 400%;
     background-repeat: no-repeat;
 	animation: gradient 15s ease infinite;
-    min-height: 100vh;
+	min-height: 100vh;
 }
 
 @keyframes gradient {

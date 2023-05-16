@@ -8,8 +8,13 @@
                 <h2 class="card-title mb-1">
                     <%= article.title %>
                 </h2>
-                <div class="text-muted mb-5">
-                    <%= article.createdAt.toLocaleDateString() %> | Author: <%= (article.author.isDeleted) ? 'Deleted User' : article.author.nickname %>
+                <div class="text-muted mt-3 mb-5">
+                    <span class="badge bg-info-subtle text-info-emphasis rounded-pill">
+                        <%= article.createdAt.toLocaleDateString() %>
+                    </span>
+                    <span class="badge <%= (article.author.isDeleted) ? 'bg-danger-subtle' : 'bg-success-subtle' %> text-success-emphasis rounded-pill">
+                        Author: <%= (article.author.isDeleted) ? 'Deleted User' : article.author.nickname %>
+                    </span>
                 </div>
                 <h4 class="card-subtitle mb-2">Description</h4>
                 <div class="card-text mb-5">

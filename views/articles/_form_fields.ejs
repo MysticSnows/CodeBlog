@@ -35,7 +35,7 @@
                 <div class="row row-editor">
                     <div class="editor-container">
                         <div id="ckEditor" contenteditable="true">
-                            <%- article.sanitizedHtml %>
+                            <%- article.ckEditor %>
                         </div>
                     </div>
                 </div>
@@ -64,6 +64,6 @@
         <% } else { %>
         <a href="/" class="btn btn-secondary">Cancel</a>
         <% } %>
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="submit" class="btn btn-outline-primary">Save</button>
     </div>
 </div>

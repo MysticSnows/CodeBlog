@@ -8,7 +8,13 @@
                     <input name="query" class="form-control w-100" type="search" placeholder="Search Article"
                         aria-label="Search">
                 </div>
-                <button class="btn btn-success bg-gradient" type="submit">Search</button>
+                <button class="btn btn-outline-light" style="color: black; font-size: 14px;" type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                        height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 18 18">
+                        <path
+                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                    </svg> Search
+                </button>
             </form>
             <a href="/articles/create" class="btn btn-dark mt-4 w-100">Create Article</a>
         </div>
@@ -28,10 +34,15 @@
                     <h4 class="card-title">
                         <%= article.title %>
                     </h4>
-                    <div class="card-subtitle text-muted mb-2">
-                        <%= article.createdAt.toLocaleDateString() %> | Author: <%= (article.author.isDeleted) ? 'Deleted User' : article.author.nickname %>
+                    <div class="card-subtitle text-muted mt-1 mb-2">
+                        <span class="badge bg-info-subtle text-info-emphasis rounded-pill">
+                            <%= article.createdAt.toLocaleDateString() %> 
+                        </span>
+                        <span class="badge <%= (article.author.isDeleted) ? 'bg-danger-subtle' : 'bg-success-subtle' %> text-success-emphasis rounded-pill">
+                            Author: <%= (article.author.isDeleted) ? 'Deleted User' : article.author.nickname %>
+                        </span>
                     </div>
-                    <div class="card-text mb-2">
+                    <div class="card-text mt-3 mb-3">
                         <%= article.description %>
                     </div>
                     <a href="/articles/<%= article.slug %>" class="btn btn-dark">Read More</a>
